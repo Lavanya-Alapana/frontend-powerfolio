@@ -25,7 +25,7 @@ const UserDashboard = () => {
   const fetchUserProjects = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/projects/my-projects', {
+      const response = await fetch('https://backend-powerfolio-dv2i.onrender.com/api/projects/my-projects', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -55,7 +55,7 @@ const UserDashboard = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/projects/${projectToDelete._id}`, {
+      const response = await fetch(`https://backend-powerfolio-dv2i.onrender.com/api/projects/${projectToDelete._id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -184,7 +184,7 @@ const UserDashboard = () => {
                   <div className="aspect-video w-full bg-slate-100 relative overflow-hidden">
                     {project.images && project.images.length > 0 ? (
                       <img
-                        src={project.images[0].startsWith('http') ? project.images[0] : `http://localhost:5000/${project.images[0]}`}
+                        src={project.images[0].startsWith('http') ? project.images[0] : `https://backend-powerfolio-dv2i.onrender.com/${project.images[0]}`}
                         alt={project.title}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       />

@@ -23,7 +23,7 @@ export default function Projects() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/projects');
+        const response = await fetch('https://backend-powerfolio-dv2i.onrender.com/api/projects');
         if (!response.ok) {
           throw new Error('Failed to fetch projects');
         }
@@ -253,8 +253,8 @@ export default function Projects() {
                   key={i}
                   onClick={() => paginate(i + 1)}
                   className={`w-10 h-10 rounded-lg text-sm font-medium transition-colors ${currentPage === i + 1
-                      ? 'bg-indigo-600 text-white'
-                      : 'text-slate-600 hover:bg-slate-50 border border-slate-200'
+                    ? 'bg-indigo-600 text-white'
+                    : 'text-slate-600 hover:bg-slate-50 border border-slate-200'
                     }`}
                 >
                   {i + 1}

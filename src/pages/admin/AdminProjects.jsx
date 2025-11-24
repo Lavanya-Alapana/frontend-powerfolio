@@ -15,7 +15,7 @@ export default function AdminProjects() {
     const fetchProjects = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:5000/api/admin/projects', {
+            const response = await fetch('https://backend-powerfolio-dv2i.onrender.com/api/admin/projects', {
                 headers: { 'x-auth-token': token }
             });
             if (response.ok) {
@@ -33,7 +33,7 @@ export default function AdminProjects() {
     const handleStatusUpdate = async (id, status) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:5000/api/admin/projects/${id}/status`, {
+            const response = await fetch(`https://backend-powerfolio-dv2i.onrender.com/api/admin/projects/${id}/status`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -80,8 +80,8 @@ export default function AdminProjects() {
                                 key={status}
                                 onClick={() => setFilter(status)}
                                 className={`px-4 py-2 rounded-md text-sm font-medium capitalize transition-colors ${filter === status
-                                        ? 'bg-indigo-100 text-indigo-700'
-                                        : 'text-slate-600 hover:bg-slate-50'
+                                    ? 'bg-indigo-100 text-indigo-700'
+                                    : 'text-slate-600 hover:bg-slate-50'
                                     }`}
                             >
                                 {status}
@@ -109,7 +109,7 @@ export default function AdminProjects() {
                                             <div className="flex items-center">
                                                 <div className="h-10 w-10 flex-shrink-0">
                                                     {project.images && project.images[0] ? (
-                                                        <img className="h-10 w-10 rounded-lg object-cover" src={project.images[0].startsWith('http') ? project.images[0] : `http://localhost:5000/${project.images[0]}`} alt="" />
+                                                        <img className="h-10 w-10 rounded-lg object-cover" src={project.images[0].startsWith('http') ? project.images[0] : `https://backend-powerfolio-dv2i.onrender.com/${project.images[0]}`} alt="" />
                                                     ) : (
                                                         <div className="h-10 w-10 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400">
                                                             <FolderIcon className="h-6 w-6" />
@@ -128,8 +128,8 @@ export default function AdminProjects() {
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${project.status === 'approved' ? 'bg-green-100 text-green-800' :
-                                                    project.status === 'rejected' ? 'bg-red-100 text-red-800' :
-                                                        'bg-yellow-100 text-yellow-800'
+                                                project.status === 'rejected' ? 'bg-red-100 text-red-800' :
+                                                    'bg-yellow-100 text-yellow-800'
                                                 }`}>
                                                 {project.status || 'pending'}
                                             </span>

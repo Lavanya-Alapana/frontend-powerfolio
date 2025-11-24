@@ -13,7 +13,7 @@ export default function AdminUsers() {
     const fetchUsers = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:5000/api/admin/users', {
+            const response = await fetch('https://backend-powerfolio-dv2i.onrender.com/api/admin/users', {
                 headers: { 'x-auth-token': token }
             });
             if (response.ok) {
@@ -35,7 +35,7 @@ export default function AdminUsers() {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:5000/api/admin/users/${id}`, {
+            const response = await fetch(`https://backend-powerfolio-dv2i.onrender.com/api/admin/users/${id}`, {
                 method: 'DELETE',
                 headers: { 'x-auth-token': token }
             });

@@ -29,7 +29,7 @@ export default function ProjectDetail() {
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/projects/${id}`);
+        const response = await fetch(`https://backend-powerfolio-dv2i.onrender.com/api/projects/${id}`);
         if (!response.ok) {
           throw new Error('Project not found');
         }
@@ -38,7 +38,7 @@ export default function ProjectDetail() {
         // Process data
         if (data.images && data.images.length > 0) {
           data.images = data.images.map(img =>
-            img.startsWith('http') ? img : `http://localhost:5000/${img}`
+            img.startsWith('http') ? img : `https://backend-powerfolio-dv2i.onrender.com/${img}`
           );
         } else {
           // Fallback image if no images
@@ -80,7 +80,7 @@ export default function ProjectDetail() {
         return;
       }
 
-      const response = await fetch(`http://localhost:5000/api/projects/comment/${id}`, {
+      const response = await fetch(`https://backend-powerfolio-dv2i.onrender.com/api/projects/comment/${id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -220,7 +220,7 @@ export default function ProjectDetail() {
                         return;
                       }
 
-                      const response = await fetch(`http://localhost:5000/api/projects/like/${id}`, {
+                      const response = await fetch(`https://backend-powerfolio-dv2i.onrender.com/api/projects/like/${id}`, {
                         method: 'PUT',
                         headers: {
                           'x-auth-token': token

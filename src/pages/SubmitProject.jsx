@@ -95,7 +95,7 @@ export default function SubmitProject() {
 
   const fetchProject = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/projects/${id}`);
+      const response = await fetch(`https://backend-powerfolio-dv2i.onrender.com/api/projects/${id}`);
       if (!response.ok) throw new Error('Failed to fetch project');
       const data = await response.json();
 
@@ -118,7 +118,7 @@ export default function SubmitProject() {
         // Assuming backend returns relative paths like "uploads/..."
         // We need to prepend server URL for preview
         const previews = data.images.map(img =>
-          img.startsWith('http') ? img : `http://localhost:5000/${img}`
+          img.startsWith('http') ? img : `https://backend-powerfolio-dv2i.onrender.com/${img}`
         );
         setImagePreviews(previews);
       }
@@ -212,7 +212,7 @@ export default function SubmitProject() {
           const formData = new FormData();
           formData.append('image', file);
 
-          const uploadRes = await fetch('http://localhost:5000/api/upload', {
+          const uploadRes = await fetch('https://backend-powerfolio-dv2i.onrender.com/api/upload', {
             method: 'POST',
             headers: {
               'Authorization': `Bearer ${token}`
@@ -240,8 +240,8 @@ export default function SubmitProject() {
       };
 
       const url = isEditMode
-        ? `http://localhost:5000/api/projects/${id}`
-        : 'http://localhost:5000/api/projects';
+        ? `https://backend-powerfolio-dv2i.onrender.com/api/projects/${id}`
+        : 'https://backend-powerfolio-dv2i.onrender.com/api/projects';
 
       const method = isEditMode ? 'PUT' : 'POST';
 

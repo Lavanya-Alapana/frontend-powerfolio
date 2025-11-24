@@ -20,7 +20,7 @@ export default function AdminDashboard() {
         const fetchStats = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch('http://localhost:5000/api/admin/stats', {
+                const response = await fetch('https://backend-powerfolio-dv2i.onrender.com/api/admin/stats', {
                     headers: {
                         'x-auth-token': token
                     }
