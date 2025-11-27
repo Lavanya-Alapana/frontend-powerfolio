@@ -2,11 +2,9 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MagnifyingGlassIcon, FunnelIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import ProjectCard from '../components/projects/ProjectCard';
+import api from '../utils/api';
 
-// Mock data - replace with actual API call
-// Mock data removed
 
-// Tags will be derived from fetched projects
 
 export default function Projects() {
   const [projects, setProjects] = useState([]);
@@ -23,11 +21,8 @@ export default function Projects() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await fetch('https://backend-powerfolio-dv2i.onrender.com/api/projects');
-        if (!response.ok) {
-          throw new Error('Failed to fetch projects');
-        }
-        const data = await response.json();
+        const response = await api.get('/projects');
+        const data = response.data;
 
         const transformedData = data.map(project => ({
           ...project,

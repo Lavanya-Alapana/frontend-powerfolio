@@ -11,10 +11,9 @@ import {
   ShareIcon
 } from "@heroicons/react/24/outline";
 import { useAuth } from '../context/AuthContext';
+import api from '../utils/api';
 
 
-// Mock data - replace with actual API call
-// Mock data removed
 
 export default function ProjectDetail() {
   const { id } = useParams();
@@ -29,16 +28,13 @@ export default function ProjectDetail() {
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const response = await fetch(`https://backend-powerfolio-dv2i.onrender.com/api/projects/${id}`);
-        if (!response.ok) {
-          throw new Error('Project not found');
-        }
-        const data = await response.json();
+        const response = await api.get(`/projects/${id}`);
+        const data = response.data;
 
         // Process data
         if (data.images && data.images.length > 0) {
           data.images = data.images.map(img =>
-            img.startsWith('http') ? img : `https://backend-powerfolio-dv2i.onrender.com/${img}`
+            img.startsWith('http') ? img : `${import.meta.env.VITE_API_URL}/${img}`
           );
         } else {
           // Fallback image if no images
@@ -80,20 +76,9 @@ export default function ProjectDetail() {
         return;
       }
 
-      const response = await fetch(`https://backend-powerfolio-dv2i.onrender.com/api/projects/comment/${id}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-auth-token': token
-        },
-        body: JSON.stringify({ text: comment })
-      });
+      const response = await api.post(`/projects/comment/${id}`, { text: comment });
 
-      if (!response.ok) {
-        throw new Error('Failed to post comment');
-      }
-
-      const updatedComments = await response.json();
+      const updatedComments = response.data;
       setProject(prev => ({ ...prev, comments: updatedComments }));
       setComment('');
     } catch (err) {
@@ -220,21 +205,14 @@ export default function ProjectDetail() {
                         return;
                       }
 
-                      const response = await fetch(`https://backend-powerfolio-dv2i.onrender.com/api/projects/like/${id}`, {
-                        method: 'PUT',
-                        headers: {
-                          'x-auth-token': token
-                        }
-                      });
+                      const response = await api.put(`/projects/like/${id}`);
 
-                      if (response.ok) {
-                        const likes = await response.json();
-                        setProject(prev => ({
-                          ...prev,
-                          likes: likes,
-                          stats: { ...prev.stats, stars: likes.length }
-                        }));
-                      }
+                      const likes = response.data;
+                      setProject(prev => ({
+                        ...prev,
+                        likes: likes,
+                        stats: { ...prev.stats, stars: likes.length }
+                      }));
                     } catch (err) {
                       console.error('Error liking project:', err);
                     }
@@ -413,7 +391,7 @@ export default function ProjectDetail() {
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }

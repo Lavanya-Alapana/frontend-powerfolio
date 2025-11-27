@@ -5,6 +5,7 @@ import { toast } from 'react-hot-toast';
 import { PencilIcon, TrashIcon, PlusIcon, EyeIcon, CalendarIcon, FolderIcon } from '@heroicons/react/24/outline';
 import { motion } from 'framer-motion';
 import Modal from '../components/common/Modal';
+import api from '../utils/api';
 
 const UserDashboard = () => {
   const { user, isAuthenticated } = useAuth();
@@ -24,19 +25,8 @@ const UserDashboard = () => {
 
   const fetchUserProjects = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch('https://backend-powerfolio-dv2i.onrender.com/api/projects/my-projects', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch projects');
-      }
-
-      const data = await response.json();
-      setProjects(data);
+      const response = await api.get('/projects/my-projects');
+      setProjects(response.data);
     } catch (error) {
       console.error('Error fetching projects:', error);
       toast.error(error.message || 'Failed to load projects');
@@ -54,17 +44,7 @@ const UserDashboard = () => {
     if (!projectToDelete) return;
 
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`https://backend-powerfolio-dv2i.onrender.com/api/projects/${projectToDelete._id}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to delete project');
-      }
+      await api.delete(`/projects/${projectToDelete._id}`);
 
       toast.success('Project deleted successfully');
       setProjects(projects.filter(p => p._id !== projectToDelete._id));
@@ -184,7 +164,7 @@ const UserDashboard = () => {
                   <div className="aspect-video w-full bg-slate-100 relative overflow-hidden">
                     {project.images && project.images.length > 0 ? (
                       <img
-                        src={project.images[0].startsWith('http') ? project.images[0] : `https://backend-powerfolio-dv2i.onrender.com/${project.images[0]}`}
+                        src={project.images[0].startsWith('http') ? project.images[0] : `${import.meta.env.VITE_API_URL}/${project.images[0]}`}
                         alt={project.title}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       />
