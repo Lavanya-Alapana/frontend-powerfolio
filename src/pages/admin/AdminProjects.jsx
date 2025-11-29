@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { CheckCircleIcon, XCircleIcon, EyeIcon } from '@heroicons/react/24/outline';
+import { CheckCircleIcon, XCircleIcon, EyeIcon, FolderIcon } from '@heroicons/react/24/outline';
 import toast from 'react-hot-toast';
+import api from '../../utils/api';
 
 export default function AdminProjects() {
     const [projects, setProjects] = useState([]);
@@ -14,14 +15,8 @@ export default function AdminProjects() {
 
     const fetchProjects = async () => {
         try {
-            const token = localStorage.getItem('token');
-            const response = await fetch('https://backend-powerfolio-dv2i.onrender.com/api/admin/projects', {
-                headers: { 'x-auth-token': token }
-            });
-            if (response.ok) {
-                const data = await response.json();
-                setProjects(data);
-            }
+            const response = await api.get('/admin/projects');
+            setProjects(response.data);
         } catch (error) {
             console.error('Error fetching projects:', error);
             toast.error('Failed to load projects');
@@ -32,22 +27,9 @@ export default function AdminProjects() {
 
     const handleStatusUpdate = async (id, status) => {
         try {
-            const token = localStorage.getItem('token');
-            const response = await fetch(`https://backend-powerfolio-dv2i.onrender.com/api/admin/projects/${id}/status`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-auth-token': token
-                },
-                body: JSON.stringify({ status })
-            });
-
-            if (response.ok) {
-                toast.success(`Project ${status}`);
-                fetchProjects(); // Refresh list
-            } else {
-                throw new Error('Failed to update status');
-            }
+            await api.put(`/admin/projects/${id}/status`, { status });
+            toast.success(`Project ${status}`);
+            fetchProjects(); // Refresh list
         } catch (error) {
             console.error('Error updating status:', error);
             toast.error('Failed to update status');
@@ -109,7 +91,7 @@ export default function AdminProjects() {
                                             <div className="flex items-center">
                                                 <div className="h-10 w-10 flex-shrink-0">
                                                     {project.images && project.images[0] ? (
-                                                        <img className="h-10 w-10 rounded-lg object-cover" src={project.images[0].startsWith('http') ? project.images[0] : `https://backend-powerfolio-dv2i.onrender.com/${project.images[0]}`} alt="" />
+                                                        <img className="h-10 w-10 rounded-lg object-cover" src={project.images[0].startsWith('http') ? project.images[0] : `http://localhost:5000/${project.images[0]}`} alt="" />
                                                     ) : (
                                                         <div className="h-10 w-10 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400">
                                                             <FolderIcon className="h-6 w-6" />

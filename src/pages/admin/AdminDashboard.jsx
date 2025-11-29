@@ -7,6 +7,7 @@ import {
     CheckCircleIcon,
     ClockIcon
 } from '@heroicons/react/24/outline';
+import api from '../../utils/api';
 
 export default function AdminDashboard() {
     const [stats, setStats] = useState({
@@ -19,16 +20,8 @@ export default function AdminDashboard() {
     useEffect(() => {
         const fetchStats = async () => {
             try {
-                const token = localStorage.getItem('token');
-                const response = await fetch('https://backend-powerfolio-dv2i.onrender.com/api/admin/stats', {
-                    headers: {
-                        'x-auth-token': token
-                    }
-                });
-                if (response.ok) {
-                    const data = await response.json();
-                    setStats(data);
-                }
+                const response = await api.get('/admin/stats');
+                setStats(response.data);
             } catch (error) {
                 console.error('Error fetching stats:', error);
             } finally {

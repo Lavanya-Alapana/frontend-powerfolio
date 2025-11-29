@@ -175,7 +175,13 @@ const UserDashboard = () => {
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                    <div className="absolute top-4 right-4">
+                    <div className="absolute top-4 right-4 flex gap-2">
+                      <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold backdrop-blur-sm shadow-sm ${project.status === 'approved' ? 'bg-green-100/90 text-green-700' :
+                          project.status === 'rejected' ? 'bg-red-100/90 text-red-700' :
+                            'bg-yellow-100/90 text-yellow-700'
+                        }`}>
+                        {project.status ? project.status.charAt(0).toUpperCase() + project.status.slice(1) : 'Pending'}
+                      </span>
                       <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-white/90 backdrop-blur-sm text-indigo-600 shadow-sm">
                         {project.category}
                       </span>

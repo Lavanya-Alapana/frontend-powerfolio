@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import toast from 'react-hot-toast';
+import api from '../../utils/api';
 
 export default function AdminUsers() {
     const [users, setUsers] = useState([]);
@@ -12,14 +13,8 @@ export default function AdminUsers() {
 
     const fetchUsers = async () => {
         try {
-            const token = localStorage.getItem('token');
-            const response = await fetch('https://backend-powerfolio-dv2i.onrender.com/api/admin/users', {
-                headers: { 'x-auth-token': token }
-            });
-            if (response.ok) {
-                const data = await response.json();
-                setUsers(data);
-            }
+            const response = await api.get('/admin/users');
+            setUsers(response.data);
         } catch (error) {
             console.error('Error fetching users:', error);
             toast.error('Failed to load users');
@@ -34,18 +29,9 @@ export default function AdminUsers() {
         }
 
         try {
-            const token = localStorage.getItem('token');
-            const response = await fetch(`https://backend-powerfolio-dv2i.onrender.com/api/admin/users/${id}`, {
-                method: 'DELETE',
-                headers: { 'x-auth-token': token }
-            });
-
-            if (response.ok) {
-                toast.success('User deleted successfully');
-                setUsers(users.filter(user => user._id !== id));
-            } else {
-                throw new Error('Failed to delete user');
-            }
+            await api.delete(`/admin/users/${id}`);
+            toast.success('User deleted successfully');
+            setUsers(users.filter(user => user._id !== id));
         } catch (error) {
             console.error('Error deleting user:', error);
             toast.error('Failed to delete user');

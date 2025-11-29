@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { useQueryClient } from '@tanstack/react-query';
+import api from '../utils/api';
 
 const AuthContext = createContext({});
 
@@ -22,20 +23,8 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      // TODO: Replace with actual API call
-      const response = await fetch('https://backend-powerfolio-dv2i.onrender.com/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Login failed');
-      }
+      const response = await api.post('/auth/login', { email, password });
+      const data = response.data;
 
       setUser(data.user);
       localStorage.setItem('token', data.token);
@@ -43,32 +32,19 @@ export const AuthProvider = ({ children }) => {
       toast.success('Logged in successfully');
       return true;
     } catch (error) {
-      toast.error(error.message || 'Login failed');
+      toast.error(error.response?.data?.message || 'Login failed');
       return false;
     }
   };
 
   const register = async (userData) => {
     try {
-      // TODO: Replace with actual API call
-      const response = await fetch('https://backend-powerfolio-dv2i.onrender.com/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(userData),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Registration failed');
-      }
+      const response = await api.post('/auth/register', userData);
 
       toast.success('Registration successful! Please log in.');
       return true;
     } catch (error) {
-      toast.error(error.message || 'Registration failed');
+      toast.error(error.response?.data?.message || 'Registration failed');
       return false;
     }
   };
