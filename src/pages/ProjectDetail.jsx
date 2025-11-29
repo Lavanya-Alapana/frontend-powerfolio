@@ -234,8 +234,10 @@ export default function ProjectDetail() {
             </div>
 
             <div className="prose prose-slate max-w-none mb-8">
-              <p>{project.description}</p>
+              <p className="text-lg text-slate-600 leading-relaxed">{project.description}</p>
             </div>
+
+
 
             <div className="flex flex-wrap gap-2 mb-8">
               {project.tags.map((tag) => (
@@ -351,7 +353,7 @@ export default function ProjectDetail() {
                 <div>
                   <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Technologies</h4>
                   <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag) => (
+                    {project.technologies.map((tag) => (
                       <span
                         key={tag}
                         className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-slate-100 text-slate-700 border border-slate-200"

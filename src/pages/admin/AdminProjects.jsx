@@ -91,7 +91,7 @@ export default function AdminProjects() {
                                             <div className="flex items-center">
                                                 <div className="h-10 w-10 flex-shrink-0">
                                                     {project.images && project.images[0] ? (
-                                                        <img className="h-10 w-10 rounded-lg object-cover" src={project.images[0].startsWith('http') ? project.images[0] : `http://localhost:5000/${project.images[0]}`} alt="" />
+                                                         <img className="h-10 w-10 rounded-lg object-cover" src={project.images[0].startsWith('http') ? project.images[0] : `${import.meta.env.VITE_API_URL}/${project.images[0]}`} alt="" />
                                                     ) : (
                                                         <div className="h-10 w-10 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400">
                                                             <FolderIcon className="h-6 w-6" />

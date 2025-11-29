@@ -48,15 +48,15 @@ export default function Projects() {
     fetchProjects();
   }, []);
 
-  const allTags = [...new Set(projects.flatMap(project => project.tags || []))];
+  const allTags = [...new Set(projects.flatMap(project => project.technologies || []))];
 
   const filteredProjects = projects.filter(project => {
     const matchesSearch = project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       project.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      project.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
+      (project.technologies && project.technologies.some(tech => tech.toLowerCase().includes(searchTerm.toLowerCase())));
 
     const matchesTags = selectedTags.length === 0 ||
-      selectedTags.every(tag => project.tags.includes(tag));
+      (project.technologies && selectedTags.every(tag => project.technologies.includes(tag)));
 
     return matchesSearch && matchesTags;
   });
