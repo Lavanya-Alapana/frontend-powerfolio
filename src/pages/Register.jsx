@@ -38,13 +38,14 @@ const Register = () => {
       name: formData.name,
       email: formData.email,
       password: formData.password,
+      confirmPassword:formData.confirmPassword
     };
 
     const success = await register(userData);
     setIsLoading(false);
 
     if (success) {
-      navigate('/login');
+      navigate('/dashboard');
     }
   };
 

@@ -17,7 +17,6 @@ import AdminProjects from './pages/admin/AdminProjects';
 
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminLogin from './pages/admin/AdminLogin';
-import ProtectedRoute from './components/auth/ProtectedRoute';
 import AdminRoute from './components/auth/AdminRoute';
 import './index.css';
 
